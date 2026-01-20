@@ -14,5 +14,10 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mysql2": "^3.16.0"
+  },
+  "scripts": {
+    "android": "react-native run-android",
+    "start": "react-native start"
   }
+
 }
