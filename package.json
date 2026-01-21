@@ -2,7 +2,7 @@
   "name": "onlinecardappwebservice",
   "version": "1.0.0",
   "description": "Backend web service for online card app",
-  "main": "index.js",
+  "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js"
