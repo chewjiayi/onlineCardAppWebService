@@ -64,18 +64,18 @@ app.get('/allcards', async (req, res) => {
 
 // ADD new card
 app.post('/addcard', async (req, res) => {
-    const { card_name, card_pic } = req.body;
+    const { card_name, card_URL } = req.body;
 
-    if (!card_name || !card_pic) {
-        return res.status(400).json({ message: 'card_name and card_pic are required' });
+    if (!card_name || !card_URL) {
+        return res.status(400).json({ message: 'card_name and card_URL are required' });
     }
 
     let connection;
     try {
         connection = await mysql.createConnection(dbConfig);
         await connection.execute(
-            'INSERT INTO cards (card_name, card_pic) VALUES (?, ?)',
-            [card_name, card_pic]
+            'INSERT INTO cards (card_name, card_URL) VALUES (?, ?)',
+            [card_name, card_URL]
         );
         res.status(201).json({ message: `Card ${card_name} added successfully` });
     } catch (err) {
@@ -85,3 +85,32 @@ app.post('/addcard', async (req, res) => {
         if (connection) await connection.end();
     }
 });
+
+// Example Route: Update a card
+app.put('/updatecard/:id', async (req, res) => {
+    const { id } = req.params;
+    const { card_name, card_pic } = req.body;
+    try{
+        let connection = await mysql.createConnection(dbConfig);
+        await connection.execute('UPDATE cards SET card_name=?, card_pic=? WHERE id=?', [card_name, card_pic, id]);
+        res.status(201).json({ message: 'Card ' + id + ' updated successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error - could not update card ' + id });
+    }
+});
+
+// Example Route: Delete a card
+app.delete('/deletecard/:id', async (req, res) => {
+    const { id } = req.params;
+    try{
+        let connection = await mysql.createConnection(dbConfig);
+        await connection.execute('DELETE FROM cards WHERE id=?', [id]);
+        res.status(201).json({ message: 'Card ' + id + ' deleted successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error - could not delete card ' + id });
+    }
+});
+
+
