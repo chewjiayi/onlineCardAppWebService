@@ -76,7 +76,7 @@ app.post("/addcard", async (req, res) => {
         connection = await mysql.createConnection(dbConfig);
         await connection.execute(
             "INSERT INTO cards (card_name, card_pic) VALUES (?, ?)",
-            [card_name, card_URL]
+            [card_name, card_pic]
         );
         res.status(201).json({ message: "Card added successfully" });
     } catch (error) {
