@@ -90,14 +90,14 @@ app.post("/addcard", async (req, res) => {
 // UPDATE card
 app.put("/updatecard/:id", async (req, res) => {
     const { id } = req.params;
-    const { card_name, card_URL } = req.body;
+    const { card_name, card_pic } = req.body;
 
     let connection;
     try {
         connection = await mysql.createConnection(dbConfig);
         await connection.execute(
-            "UPDATE cards SET card_name = ?, card_URL = ? WHERE id = ?",
-            [card_name, card_URL, id]
+            "UPDATE cards SET card_name = ?, card_pic = ? WHERE id = ?",
+            [card_name, card_pic, id]
         );
         res.json({ message: "Card updated successfully" });
     } catch (error) {
