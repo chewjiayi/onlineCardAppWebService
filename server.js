@@ -65,9 +65,9 @@ app.get("/allcards", async (req, res) => {
 
 // ADD new card
 app.post("/addcard", async (req, res) => {
-    const { card_name, card_URL } = req.body;
+    const { card_name, card_pic } = req.body;
 
-    if (!card_name || !card_URL) {
+    if (!card_name || !card_pic) {
         return res.status(400).json({ message: "card_name and card_URL are required" });
     }
 
@@ -75,7 +75,7 @@ app.post("/addcard", async (req, res) => {
     try {
         connection = await mysql.createConnection(dbConfig);
         await connection.execute(
-            "INSERT INTO cards (card_name, card_URL) VALUES (?, ?)",
+            "INSERT INTO cards (card_name, card_pic) VALUES (?, ?)",
             [card_name, card_URL]
         );
         res.status(201).json({ message: "Card added successfully" });
